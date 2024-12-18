@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"log"
+)
+
 func main() {
 
 	// Lesson
@@ -274,4 +279,62 @@ func main() {
 			fmt.Println("No")
 		}
 	*/
+
+	// Add
+	var membersCount int = 0
+	fmt.Print("Введите общее количество участников: ")
+	_, err := fmt.Scan(&membersCount)
+	if err != nil || membersCount <= 0 {
+		log.Println("Ошибка ввода. Введите положительное число участников.")
+		return
+	}
+
+	names := make([]string, membersCount)
+	weights := make([]float64, membersCount)
+
+	fmt.Println("Введите участников в формате 'имя вес':")
+	for i := 0; i < membersCount; i++ {
+		_, err = fmt.Scan(&names[i], &weights[i])
+		if err != nil || weights[i] <= 0 {
+			log.Printf("Ошибка ввода данных для участника #%d. Повторите попытку.\n", i+1)
+			return
+		}
+	}
+
+	lightWeights := []int{}
+	averageWeights := []int{}
+	heavyWeights := []int{}
+
+	for i, weight := range weights {
+		switch {
+		case weight <= 64:
+			lightWeights = append(lightWeights, i)
+		case weight <= 78:
+			averageWeights = append(averageWeights, i)
+		default:
+			heavyWeights = append(heavyWeights, i)
+		}
+	}
+
+	if len(lightWeights) > 0 {
+		fmt.Printf("Легкая весовая категория до 64 кг (вкл) - количество участников: %d\n", len(lightWeights))
+		for _, value := range lightWeights {
+			fmt.Printf("%s - %f\n", names[value], weights[value])
+		}
+	}
+
+	if len(averageWeights) > 0 {
+		fmt.Printf("Средняя весовая категория до 78 кг (вкл) - количество участников: %d\n", len(averageWeights))
+		for _, value := range averageWeights {
+			fmt.Printf("%s - %f\n", names[value], weights[value])
+		}
+	}
+
+	if len(heavyWeights) > 0 {
+		fmt.Printf("Тяжелая весовая категория от 78 кг - количество участников: %d\n", len(heavyWeights))
+		for _, value := range heavyWeights {
+			fmt.Printf("%s - %f\n", names[value], weights[value])
+		}
+	}
+
 }
