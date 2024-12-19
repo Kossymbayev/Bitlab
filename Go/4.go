@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	// Lesson
+	// Lesson Arrays
 	/*
 		for i := 1; i <= 10; i++ {
 			for ii := 1; ii <= 10; ii++ {
