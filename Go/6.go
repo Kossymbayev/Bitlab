@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 func main() {
@@ -443,12 +442,52 @@ func main() {
 	*/
 
 	// 14
+	/*
+		var n int
+		var m int
+		fmt.Println("Введите n и m: ")
+		_, err := fmt.Scan(&n, &m)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		matrix := make([][]int, n)
+		for i := range matrix {
+			matrix[i] = make([]int, m)
+		}
+
+		fmt.Println("Введите данные в массив: ")
+
+		for i, _ := range matrix {
+			for ii, _ := range matrix[i] {
+				fmt.Scan(&matrix[i][ii])
+			}
+		}
+
+		fmt.Println("Созданная матрица: ")
+		fmt.Println(matrix)
+
+		sums := []int{}
+
+		for _, row := range matrix {
+			sum := 0
+			for _, value := range row {
+				sum += value
+			}
+			sums = append(sums, sum)
+		}
+
+		fmt.Printf("Суммы строк %v \n", sums)
+	*/
+
+	// 15
 	var n int
 	var m int
 	fmt.Println("Введите n и m: ")
 	_, err := fmt.Scan(&n, &m)
-	if err != nil {
-		log.Println(err)
+	if err != nil || n <= 0 || m <= 0 || n != m {
+		fmt.Println("NO")
 		return
 	}
 
@@ -458,7 +497,6 @@ func main() {
 	}
 
 	fmt.Println("Введите данные в массив: ")
-
 	for i, _ := range matrix {
 		for ii, _ := range matrix[i] {
 			fmt.Scan(&matrix[i][ii])
@@ -468,15 +506,52 @@ func main() {
 	fmt.Println("Созданная матрица: ")
 	fmt.Println(matrix)
 
-	sums := []int{}
+	magicBoxNum := 0
 
-	for _, row := range matrix {
+	// Строки
+	for i, row := range matrix {
 		sum := 0
 		for _, value := range row {
 			sum += value
 		}
-		sums = append(sums, sum)
+		if i == 0 {
+			magicBoxNum = sum
+		} else if magicBoxNum != sum {
+			fmt.Println("NO")
+			return
+		}
 	}
 
-	fmt.Printf("Суммы строк %v \n", sums)
+	// Столбцы
+	for i := 0; i < m; i++ {
+		sum := 0
+		for ii := 0; ii < n; ii++ {
+			sum += matrix[ii][i]
+		}
+		if magicBoxNum != sum {
+			fmt.Println("NO")
+			return
+		}
+	}
+
+	// Диагональ
+	for i := 0; i < n; i++ {
+		sum := 0
+		sum += matrix[i][i]
+		if magicBoxNum != sum {
+			fmt.Println("NO")
+			return
+		}
+	}
+
+	for i := 0; i < n; i++ {
+		sum := 0
+		sum += matrix[len(matrix)-i-1][i]
+		if magicBoxNum != sum {
+			fmt.Println("NO")
+			return
+		}
+	}
+
+	//fmt.Printf("Суммы строк %v \n", )
 }
